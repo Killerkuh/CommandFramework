@@ -17,11 +17,57 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 plugins {
-    steamwar.java
+    `java-library`
+}
+
+group = "de.steamwar"
+version = "1.0.0"
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+sourceSets {
+    main {
+        java {
+            setSrcDirs(listOf("src"))
+        }
+        resources {
+            setSrcDirs(listOf("src"))
+            exclude("**/*.java", "**/*.kt")
+        }
+    }
+
+    test {
+        java {
+            setSrcDirs(listOf("testsrc"))
+        }
+        resources {
+            setSrcDirs(listOf("testsrc"))
+            exclude("**/*.java", "**/*.kt")
+        }
+    }
 }
 
 dependencies {
-    testImplementation(libs.junit)
-    testImplementation(libs.hamcrest)
+    compileOnly("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.32")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.32")
+
+    // Tests
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.hamcrest:hamcrest:2.2")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
 }
